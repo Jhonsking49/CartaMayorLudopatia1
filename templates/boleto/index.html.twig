@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boleto index{% endblock %}
+
+{% block body %}
+    <h1>Boleto index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numero</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for boleto in boletos %}
+            <tr>
+                <td>{{ boleto.id }}</td>
+                <td>{{ boleto.numero }}</td>
+                <td>
+                    <a href="{{ path('app_boleto_show', {'id': boleto.id}) }}">show</a>
+                    <a href="{{ path('app_boleto_edit', {'id': boleto.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_boleto_new') }}">Create new</a>
+{% endblock %}

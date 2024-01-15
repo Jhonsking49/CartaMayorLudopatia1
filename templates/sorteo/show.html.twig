@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorteo{% endblock %}
+
+{% block body %}
+    <h1>Sorteo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sorteo.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ sorteo.nombre }}</td>
+            </tr>
+            <tr>
+                <th>FechaINI</th>
+                <td>{{ sorteo.fechaINI ? sorteo.fechaINI|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>FechaFIN</th>
+                <td>{{ sorteo.fechaFIN ? sorteo.fechaFIN|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PrecioBoleto</th>
+                <td>{{ sorteo.precioBoleto }}</td>
+            </tr>
+            <tr>
+                <th>NumerosPosibles</th>
+                <td>{{ sorteo.numerosPosibles }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sorteo_index') }}">back to list</a>
+
+    <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a>
+
+    {{ include('sorteo/_delete_form.html.twig') }}
+{% endblock %}
