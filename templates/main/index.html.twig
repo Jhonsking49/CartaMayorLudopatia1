@@ -9,12 +9,10 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Ludopatía 🤺(tu familia)</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Juan Rey González/Desktop/CartaMayorLudopatia/CartaMayorLudopatia/CartaMayorLudopatia1/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Juan Rey González/Desktop/CartaMayorLudopatia/CartaMayorLudopatia/CartaMayorLudopatia1/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href='/sorteo/new'>Crea un sorteo</a>
+    {% endif %}
 </div>
 {% endblock %}

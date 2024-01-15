@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/sorteo')]
 class SorteoController extends AbstractController
@@ -23,6 +24,7 @@ class SorteoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sorteo_new', methods: ['GET', 'POST'])]
+    #[isGranted("ROLE_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sorteo = new Sorteo();
@@ -30,6 +32,8 @@ class SorteoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $sorteo->setFechaINI(new \DateTime('now'));
+            $sorteo->setCreador($this->getUser());
             $entityManager->persist($sorteo);
             $entityManager->flush();
 

@@ -14,19 +14,10 @@ class SorteoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('fechaINI')
-            ->add('fechaFIN')
-            ->add('precioBoleto')
-            ->add('numerosPosibles')
-            ->add('ganador', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
-            ->add('creador', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
+            ->add('nombre',null,['label' => 'Nombre del sorteo: '])
+            ->add('fechaFIN',null,['label' => 'Fecha cierre: '])
+            ->add('precioBoleto',null,['label' => 'Precio de venta por boleto: '])
+            ->add('numerosPosibles',null,['label' => 'Número de boletos a vender: '])
         ;
     }
 
