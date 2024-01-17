@@ -57,9 +57,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // dd($form->get('saldo'));
+            // die;
+            $user->setSaldo($form->get('saldo')->getData());
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_show', [
+                'id' => $user->getId(),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [

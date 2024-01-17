@@ -218,7 +218,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setSaldo(int $saldo): static
     {
-        $this->saldo = $saldo;
+
+        $this->saldo = $this->saldo + $saldo;
 
         return $this;
     }

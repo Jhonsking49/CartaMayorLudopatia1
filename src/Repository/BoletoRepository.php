@@ -45,4 +45,14 @@ class BoletoRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findNumeroUnico($sorteo,$numero): ?Sorteo
+   {
+       return $this->createQueryBuilder('s')
+           ->andWhere('b.numero = :num AND b.sorteo_id = :sor')
+           ->setParameter('sor', $sorteo->getId())
+           ->setParameter('num', $numero)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
 }

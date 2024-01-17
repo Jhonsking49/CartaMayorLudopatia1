@@ -16,14 +16,6 @@ class BoletoType extends AbstractType
     {
         $builder
             ->add('numero')
-            ->add('propietario', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
-            ->add('sorteo', EntityType::class, [
-                'class' => Sorteo::class,
-'choice_label' => 'id',
-            ])
         ;
     }
 

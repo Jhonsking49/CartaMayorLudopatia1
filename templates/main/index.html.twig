@@ -12,7 +12,12 @@
     <h1>Ludopatía 🤺(tu familia)</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href='/sorteo/new'>Crea un sorteo</a>
+        <a href='/sorteo/new'>Crea un sorteo</a><br>
     {% endif %}
+        <a href='/sorteo'>Revisa los sorteos</a><br>
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Organiza tu perfil</a>
+    {% endif %}
+
 </div>
 {% endblock %}

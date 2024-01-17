@@ -22,14 +22,16 @@ class BoletoController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_boleto_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_boleto_new', methods: ['GET', 'POST'])]
+    public function new(Sorteo $sorteo, Request $request, EntityManagerInterface $entityManager): Response
     {
         $boleto = new Boleto();
         $form = $this->createForm(BoletoType::class, $boleto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $boleto->setPropietario($this->getUser());
+            $boleto->setSorteo($sorteo);
             $entityManager->persist($boleto);
             $entityManager->flush();
 
