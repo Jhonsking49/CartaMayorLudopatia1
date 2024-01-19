@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Boleto;
+use App\Entity\Sorteo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -46,13 +47,13 @@ class BoletoRepository extends ServiceEntityRepository
 //        ;
 //    }
 public function findNumeroUnico($sorteo,$numero): ?Sorteo
-   {
-       return $this->createQueryBuilder('s')
-           ->andWhere('b.numero = :num AND b.sorteo_id = :sor')
-           ->setParameter('sor', $sorteo->getId())
-           ->setParameter('num', $numero)
-           ->getQuery()
-           ->getOneOrNullResult()
-       ;
-   }
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('b.numero = :num AND b.sorteo_id = :sor')
+            ->setParameter('sor', $sorteo->getId())
+            ->setParameter('num', $numero)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

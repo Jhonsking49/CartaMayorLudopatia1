@@ -2,22 +2,62 @@
 
 {% block title %}Hello MainController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .custom-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+            text-align: center;
+            background-color: #d4edda;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-<div class="example-wrapper">
+        h1 {
+            color: #007bff;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="custom-wrapper">
     <h1>Ludopatía 🤺(tu familia)</h1>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href='/sorteo/new'>Crea un sorteo</a><br>
-    {% endif %}
-        <a href='/sorteo'>Revisa los sorteos</a><br>
-    {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Organiza tu perfil</a>
-    {% endif %}
-
+    <div class="button-container">
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href='/sorteo/new' class="button">Crea un sorteo</a>
+        {% endif %}
+        <a href='/sorteo' class="button">Revisa los sorteos</a>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Organiza tu perfil</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
+

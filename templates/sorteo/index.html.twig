@@ -2,48 +2,107 @@
 
 {% block title %}Sorteo index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .table {
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+            text-align: center;
+            background-color: #d4edda; /* Cambia el color de fondo a tu preferencia */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>Sorteo index</h1>
+    <div class="container">
+        <h1>Sorteo index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                <th>Id</th>
-                {% endif %}
-                <th>Nombre</th>
-                <th>Fecha creación</th>
-                <th>Fecha Cierre</th>
-                <th>Precio de cada boleto</th>
-                <th>Números que se venden</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for sorteo in sorteos %}
-            <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                <td>{{ sorteo.id }}</td>
-                {% endif %}
-                <td>{{ sorteo.nombre }}</td>
-                <td>{{ sorteo.fechaINI ? sorteo.fechaINI|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sorteo.fechaFIN ? sorteo.fechaFIN|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sorteo.precioBoleto }}</td>
-                <td>{{ sorteo.numerosPosibles }}</td>
-                <td>
-                    <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
-                    {# <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">show</a> #}
-                    {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th>Id</th>
+                    {% endif %}
+                    <th>Nombre</th>
+                    <th>Fecha creación</th>
+                    <th>Fecha Cierre</th>
+                    <th>Precio de cada boleto</th>
+                    <th>Números que se venden</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sorteo in sorteos %}
+                    <tr>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td>{{ sorteo.id }}</td>
+                        {% endif %}
+                        <td>{{ sorteo.nombre }}</td>
+                        <td>{{ sorteo.fechaINI ? sorteo.fechaINI|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ sorteo.fechaFIN ? sorteo.fechaFIN|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ sorteo.precioBoleto }}</td>
+                        <td>{{ sorteo.numerosPosibles }}</td>
+                        <td>
+                            <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}" class="button">Participa</a>
+                            {# <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">show</a> #}
+                            {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_sorteo_new') }}">Create new</a><br>
-    <a href="{{ path('app_main') }}">Vuelve al inicio</a>
+        <div class="button-container">
+            <a href="{{ path('app_sorteo_new') }}" class="button">Create new</a>
+            <a href="{{ path('app_main') }}" class="button">Vuelve al inicio</a>
+        </div>
+    </div>
 {% endblock %}
