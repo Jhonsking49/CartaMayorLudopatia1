@@ -61,44 +61,44 @@
     <div class="container">
         <h1>Sorteo index</h1>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <th>Id</th>
-                    {% endif %}
-                    <th>Nombre</th>
-                    <th>Fecha creación</th>
-                    <th>Fecha Cierre</th>
-                    <th>Precio de cada boleto</th>
-                    <th>Números que se venden</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sorteo in sorteos %}
-                    <tr>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <td>{{ sorteo.id }}</td>
-                        {% endif %}
-                        <td>{{ sorteo.nombre }}</td>
-                        <td>{{ sorteo.fechaINI ? sorteo.fechaINI|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ sorteo.fechaFIN ? sorteo.fechaFIN|date('Y-m-d H:i:s') : '' }}</td>
-                        <td>{{ sorteo.precioBoleto }}</td>
-                        <td>{{ sorteo.numerosPosibles }}</td>
-                        <td>
-                            <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}" class="button">Participa</a>
-                            {# <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">show</a> #}
-                            {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7">no records found</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table class="table">
+        <thead>
+            <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                <th>Id</th>
+                {% endif %}
+                <th>Nombre</th>
+                <th>Fecha creación</th>
+                <th>Fecha Cierre</th>
+                <th>Precio de cada boleto</th>
+                <th>Números que se venden</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sorteo in sorteos %}
+            <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td>{{ sorteo.id }}</td>
+                {% endif %}
+                <td>{{ sorteo.nombre }}</td>
+                <td>{{ sorteo.fechaINI ? sorteo.fechaINI|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sorteo.fechaFIN ? sorteo.fechaFIN|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sorteo.precioBoleto }}</td>
+                <td>{{ sorteo.numerosPosibles }}</td>
+                <td>
+                    <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
+                    {# <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">show</a> #}
+                    {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
         <div class="button-container">
             <a href="{{ path('app_sorteo_new') }}" class="button">Create new</a>

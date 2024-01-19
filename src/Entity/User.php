@@ -223,4 +223,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    
+    public function removeSaldo(int $saldo): static
+    {
+        $this->saldo = $this->saldo - $saldo;
+    
+        return $this;
+    }
 }
