@@ -15,4 +15,11 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+    #[Route('/error', name: 'app_main_error')]
+    public function error(): Response
+    {
+        return $this->render('main/error.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Boleto;
+use App\Entity\Sorteo;
 use App\Form\BoletoType;
 use App\Repository\BoletoRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,23 +24,32 @@ class BoletoController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_boleto_new', methods: ['GET', 'POST'])]
-    public function new(Sorteo $sorteo, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Sorteo $sorteo, Request $request, EntityManagerInterface $entityManager, BoletoRepository $boletoRepository): Response
     {
         $boleto = new Boleto();
         $form = $this->createForm(BoletoType::class, $boleto);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $boleto->setPropietario($this->getUser());
-            $boleto->setSorteo($sorteo);
-            $entityManager->persist($boleto);
-            $entityManager->flush();
+            
+            if($boletoRepository->findNumeroUnico($sorteo,$form->get('numero')->getData()) == null){
+                $this->getUser()->removeSaldo($sorteo->getPrecioBoleto());
+                $boleto->setPropietario($this->getUser());
+                $boleto->setSorteo($sorteo);
+                $entityManager->persist($boleto);
+                $entityManager->flush();
+                $sorteo->addBoleto($boleto);
+            }else{
+                return $this->redirectToRoute('app_main_error', [], Response::HTTP_FOUND);
+            }
+            
 
-            return $this->redirectToRoute('app_boleto_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sorteo_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('boleto/new.html.twig', [
+        return $this->render('sorteo/new.html.twig', [
             'boleto' => $boleto,
+            'sorteo' => $sorteo,
             'form' => $form,
         ]);
     }
