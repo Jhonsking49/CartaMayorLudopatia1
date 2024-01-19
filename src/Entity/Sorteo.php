@@ -41,6 +41,9 @@ class Sorteo
     #[ORM\Column]
     private ?int $numerosPosibles = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $state = null;
+
     public function __construct()
     {
         $this->boletos = new ArrayCollection();
@@ -161,6 +164,18 @@ class Sorteo
     public function setNumerosPosibles(int $numerosPosibles): static
     {
         $this->numerosPosibles = $numerosPosibles;
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): static
+    {
+        $this->state = $state;
 
         return $this;
     }

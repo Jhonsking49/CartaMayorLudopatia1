@@ -34,6 +34,7 @@ class SorteoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sorteo->setFechaINI(new \DateTime('now'));
             $sorteo->setCreador($this->getUser());
+            $sorteo->setState(0);
             $entityManager->persist($sorteo);
             $entityManager->flush();
 

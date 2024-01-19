@@ -25,7 +25,7 @@
             width: 95%;
             font: 18px/1.5 sans-serif;
             text-align: center;
-            background-color: #f8f9fa;
+            background-color: #c9bfbf;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -71,13 +71,15 @@
                 <th>Username</th>
                 <td>{{ user.username }}</td>
             </tr>
+            {% if is_granted('ROLE_ADMIN') %}
             <tr>
                 <th>Roles</th>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th>Saldo</th>
-                <td>{{ user.saldo }}</td>
+                <td>{{ user.saldo }}$</td>
             </tr>
         </tbody>
     </table>
