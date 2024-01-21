@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Boleto;
+use App\Entity\Sorteo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,38 +46,14 @@ class BoletoRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-        // public function findNumeroUnico($sorteo,$numero)
-        // {
-        //     return $this->createQueryBuilder('b')
-        //     ->andWhere('b.numero = :num AND b.sorteo = :sor')
-        //     ->setParameter('sor', $sorteo)
-        //     ->setParameter('num', $numero)
-        //     ->getQuery()
-        //     ->getOneOrNullResult()
-        //     ;
-        // }
-
-        public function findCantidadVendida($sorteo)
-        {
-            return $this->createQueryBuilder('b')
-            ->select('COUNT(b.id) as cantidadVendida') 
-            ->andWhere('b.sorteo = :sor')
-            ->setParameter('sor', $sorteo)
-            ->getQuery()
-            ->getSingleScalarResult()
-            ;
-        }
-
-        public function findBoletoGanador($sorteo)
-        {
-            $boletos = $this->createQueryBuilder('b')
-            ->andWhere('b.sorteo = :sorteo')
-            ->setParameter('sorteo', $sorteo)
-            ->getQuery()
-            ->getResult();
-
-            shuffle($boletos);
-
-            return count($boletos) > 0 ? $boletos[0] : null;
-        }
+public function findNumeroUnico($sorteo,$numero)
+   {
+    return $this->createQueryBuilder('b')
+    ->andWhere('b.numero = :num AND b.sorteo = :sor')
+    ->setParameter('sor', $sorteo)
+    ->setParameter('num', $numero)
+    ->getQuery()
+    ->getOneOrNullResult()
+       ;
+   }
 }

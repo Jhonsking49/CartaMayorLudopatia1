@@ -2,10 +2,63 @@
 
 {% block title %}Sorteo index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .table {
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+            text-align: center;
+            background-color: #d4edda; /* Cambia el color de fondo a tu preferencia */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <h1>Sorteo index</h1>
-
-    {% set fechaActual = "now"|date('Y-m-d H:i:s') %}
 
     <table class="table">
         <thead>
@@ -35,25 +88,8 @@
                 <td>{{ sorteo.precioBoleto }}</td>
                 <td>{{ sorteo.numerosPosibles }}</td>
                 <td>
-                    {% if is_granted('ROLE_USER') %}
-                        {% if app.user.saldo > sorteo.precioBoleto %}
-                            <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
-                        {% else %}
-                            <b>Saldo insuficiente</b>
-                        {% endif %}
-                    {% endif %}
-                </td>
-                <td>
+                    <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
                     <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">Revisa cómo va</a>
-                </td>
-                
-                <td>
-                {% if sorteo.fechaFIN|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s') %}
-                    El sorteo sigue en pie
-                {% else %}
-                    Mira el resultado
-                {% endif %}
-                </td>
                     {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
             </tr>
         {% else %}
@@ -64,6 +100,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_sorteo_new') }}">Create new</a><br>
-    <a href="{{ path('app_main') }}">Vuelve al inicio</a>
+        <div class="button-container">
+            {% if is_granted('ROLE_ADMIN')  %}
+                <a href="{{ path('app_sorteo_new') }}" class="button">Create new</a>
+            {% endif %}
+            <a href="{{ path('app_main') }}" class="button">Vuelve al inicio</a>
+        </div>
+    </div>
 {% endblock %}

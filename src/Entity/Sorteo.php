@@ -169,36 +169,4 @@ class Sorteo
 
         return $this;
     }
-
-    public function getState(): ?int
-    {
-        return $this->state;
-    }
-
-    public function setState(int $state): static
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    public function comprobarFinalizacion($boletoRepository)
-    {
-        // dump($this->fechaFIN);
-        // dump(new DateTime('now'));
-        $fechaFinDateTime = $this->fechaFIN instanceof \DateTime ? $this->fechaFIN : new \DateTime($this->fechaFIN);
-
-        if ($this->ganador === null && $fechaFinDateTime < new \DateTime('now')) {
-            $boletoGanador = $boletoRepository->findBoletoGanador($this);
-    
-            if ($boletoGanador !== null) {
-                // dd($boletoGanador);
-                // die;
-                $this->setGanador($boletoGanador->getPropietario());
-                return true;
-            }else{
-                return false;
-            }
-        }
-    }
 }

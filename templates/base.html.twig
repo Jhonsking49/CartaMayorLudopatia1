@@ -15,12 +15,11 @@
         <h1>Pierde tu dinero</h1>
 
         {% if is_granted("ROLE_USER") %}
-            Hola {{app.user.username}}, tu saldo es de: {{app.user.saldo}}<br>
-            <a href="/logout">Logout</a>
+            Hola {{app.user.username}}. <a href="/logout">Logout</a>
         {% else %}
-            Hola visitante.<br>
-            <a href="/login">inicia sesión</a>
+            Hola visitante, <a href="/login">inicia sesión</a>
         {% endif %}
         {% block body %}{% endblock %}
     </body>
 </html>
+
