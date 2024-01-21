@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sorteo;
 use App\Form\SorteoType;
+use App\Repository\BoletoRepository;
 use App\Repository\SorteoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ class SorteoController extends AbstractController
     {
         return $this->render('sorteo/index.html.twig', [
             'sorteos' => $sorteoRepository->findAll(),
+            // 'users' => $userRepository->findAll(),
         ]);
     }
 
@@ -34,6 +36,7 @@ class SorteoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sorteo->setFechaINI(new \DateTime('now'));
             $sorteo->setCreador($this->getUser());
+            $sorteo->setState(0);
             $entityManager->persist($sorteo);
             $entityManager->flush();
 
@@ -47,10 +50,11 @@ class SorteoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sorteo_show', methods: ['GET'])]
-    public function show(Sorteo $sorteo): Response
+    public function show(Sorteo $sorteo, BoletoRepository $boletoRepository): Response
     {
         return $this->render('sorteo/show.html.twig', [
             'sorteo' => $sorteo,
+            'cantidad' => $boletoRepository->findCantidadVendida($sorteo),
         ]);
     }
 

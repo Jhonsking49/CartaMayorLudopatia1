@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Sorteo index</h1>
 
+    {% set fechaActual = "now"|date('Y-m-d H:i:s') %}
+
     <table class="table">
         <thead>
             <tr>
@@ -16,7 +18,9 @@
                 <th>Fecha Cierre</th>
                 <th>Precio de cada boleto</th>
                 <th>Números que se venden</th>
-                <th>actions</th>
+                <th></th>
+                <th></th>
+                <th>Resultado</th>
             </tr>
         </thead>
         <tbody>
@@ -31,10 +35,26 @@
                 <td>{{ sorteo.precioBoleto }}</td>
                 <td>{{ sorteo.numerosPosibles }}</td>
                 <td>
-                    <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
-                    <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">Revisa cómo va</a>
-                    {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
+                    {% if is_granted('ROLE_USER') %}
+                        {% if app.user.saldo > sorteo.precioBoleto %}
+                            <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
+                        {% else %}
+                            <b>Saldo insuficiente</b>
+                        {% endif %}
+                    {% endif %}
                 </td>
+                <td>
+                    <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">Revisa cómo va</a>
+                </td>
+                
+                <td>
+                {% if sorteo.fechaFIN|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s') %}
+                    El sorteo sigue en pie
+                {% else %}
+                    Mira el resultado
+                {% endif %}
+                </td>
+                    {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
             </tr>
         {% else %}
             <tr>

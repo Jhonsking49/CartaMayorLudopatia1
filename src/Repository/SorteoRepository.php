@@ -45,5 +45,52 @@ class SorteoRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-   
+        // public function findSorteosDelUsuarioActual($usuario)
+        // {
+        //     $fechaActual = new \DateTime('now');
+        //     $qb = $this->createQueryBuilder('s');
+
+        //     $resultados = $qb->select('s')
+        //     ->join('s.boletos', 'b')
+        //     ->where('b.propietario = :usuario')
+        //     ->andWhere('s.fechaFIN < :fechaActual')
+        //     ->groupBy('s.id')
+        //     ->setParameter('usuario', $usuario)
+        //     ->setParameter('fechaActual', $fechaActual)
+        //     ->getQuery()
+        //     ->getResult();
+
+        //     return $resultados;
+        // }
+
+        public function findSorteosGanadosPorUsuario($usuario)
+    {
+        $fechaActual = new \DateTime('now');
+
+        $qb = $this->createQueryBuilder('s');
+
+        $resultados = $qb->select('s')
+            ->join('s.boletos', 'b')
+            ->where('b.propietario = :usuario')
+            ->andWhere('s.ganador = :usuario') // Ajusta la condición para la relación con el ganador
+            ->andWhere('s.fechaFIN < :fechaActual')
+            ->groupBy('s.id')
+            ->setParameter('usuario', $usuario)
+            ->setParameter('fechaActual', $fechaActual)
+            ->getQuery()
+            ->getResult();
+
+        return $resultados;
+    }
+
+    public function findSorteosCerrados()
+    {
+        $fechaActual = new \DateTime('now');
+
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.fechaFIN < :fechaActual')
+            ->setParameter('fechaActual', $fechaActual)
+            ->getQuery()
+            ->getResult();
+    }
 }

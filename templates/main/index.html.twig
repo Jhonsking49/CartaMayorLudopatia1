@@ -16,7 +16,12 @@
     {% endif %}
         <a href='/sorteo'>Revisa los sorteos</a><br>
     {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Organiza tu perfil</a>
+        <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Organiza tu perfil</a><br><br>
+
+        <h3>Sorteos finalizados</h3>
+        {% for sorteo in sorteos %}
+        <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">{{sorteo.nombre}}</a><br>
+        {% endfor %}
     {% endif %}
 
 </div>

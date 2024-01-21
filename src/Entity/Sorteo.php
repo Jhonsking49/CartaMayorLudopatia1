@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\SorteoRepository;
+use App\Repository\BoletoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[ORM\Entity(repositoryClass: SorteoRepository::class)]
 class Sorteo
@@ -40,6 +42,9 @@ class Sorteo
 
     #[ORM\Column]
     private ?int $numerosPosibles = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $state = null;
 
     public function __construct()
     {
@@ -163,5 +168,37 @@ class Sorteo
         $this->numerosPosibles = $numerosPosibles;
 
         return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): static
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function comprobarFinalizacion($boletoRepository)
+    {
+        // dump($this->fechaFIN);
+        // dump(new DateTime('now'));
+        $fechaFinDateTime = $this->fechaFIN instanceof \DateTime ? $this->fechaFIN : new \DateTime($this->fechaFIN);
+
+        if ($this->ganador === null && $fechaFinDateTime < new \DateTime('now')) {
+            $boletoGanador = $boletoRepository->findBoletoGanador($this);
+    
+            if ($boletoGanador !== null) {
+                // dd($boletoGanador);
+                // die;
+                $this->setGanador($boletoGanador->getPropietario());
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
 }

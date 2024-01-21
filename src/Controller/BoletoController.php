@@ -30,9 +30,12 @@ class BoletoController extends AbstractController
         $form = $this->createForm(BoletoType::class, $boleto);
         $form->handleRequest($request);
         
+        
         if ($form->isSubmitted() && $form->isValid()) {
             
-            if($boletoRepository->findNumeroUnico($sorteo,$form->get('numero')->getData()) == null){
+
+            if($sorteo->getNumerosPosibles()>$boletoRepository->findCantidadVendida($sorteo) &&
+                $form->get('numero')->getData() >= 0 && $form->get('numero')->getData() <= 999){
                 $this->getUser()->removeSaldo($sorteo->getPrecioBoleto());
                 $boleto->setPropietario($this->getUser());
                 $boleto->setSorteo($sorteo);

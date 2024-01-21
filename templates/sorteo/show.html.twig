@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Sorteo</h1>
 
+    {% set fechaActual = "now"|date('Y-m-d H:i:s') %}
+
     <table class="table">
         <tbody>
             {% if is_granted('ROLE_ADMIN') %}
@@ -40,6 +42,19 @@
                     {{boleto.numero}},
                 {% endfor %}
                     </td>
+            </tr>
+            <tr>
+                <th>Cantidad vendida</th>
+                <td>{{cantidad}}</td>
+            </tr>
+
+            <tr>
+                <th>Ganador</th>
+                {% if sorteo.ganador is not null %}
+                    <td>{{sorteo.ganador.username}}</td>
+                {% else %}
+                    <td>Sin ganador</td>
+                {% endif %}
             </tr>
         </tbody>
     </table>
