@@ -18,7 +18,7 @@ class BoletoController extends AbstractController
     #[Route('/', name: 'app_boleto_index', methods: ['GET'])]
     public function index(BoletoRepository $boletoRepository): Response
     {
-        return $this->render('boleto/new.html.twig', [
+        return $this->render('boleto/index.html.twig', [
             'boletos' => $boletoRepository->findAll(),
         ]);
     }
