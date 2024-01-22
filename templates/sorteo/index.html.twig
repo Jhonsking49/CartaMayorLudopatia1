@@ -91,6 +91,13 @@
                     <a href="{{ path('app_boleto_new', {'id': sorteo.id}) }}">Participa</a>
                     <a href="{{ path('app_sorteo_show', {'id': sorteo.id}) }}">Revisa cómo va</a>
                     {# <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}">edit</a> #}
+                <td>
+                    {% if sorteo.getGanador() %}
+                        <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Reclamar Premio</a>
+                    {% else %}
+                        <p>No has ganado</p>
+                    {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr>
