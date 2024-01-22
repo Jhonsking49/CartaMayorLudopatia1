@@ -117,8 +117,8 @@
 
     <a href="{{ path('app_sorteo_index') }}" class="button">Vuelve a la lista</a>
     <a href="{{ path('app_main') }}" class="button">Vuelve al inicio</a>
-    {% if is_granted('ROLE_ADMIN') %}
+
     <a href="{{ path('app_sorteo_edit', {'id': sorteo.id}) }}" class="button">edit</a>
-    {% endif %}
+
     {# {{ include('sorteo/_delete_form.html.twig') }} #}
 {% endblock %}
